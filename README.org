@@ -1,0 +1,370 @@
+#+TITLE: Main Configs
+#+AUTHOR: Mrugacz
+
+* BPSWM Config
+
+** Autostart
+
+#+begin_src bash :tangle ./bspwm/bspwmrc :tangle-mode (identity #o755)
+#!/bin/bash
+pgrep bspswallow || bspswallow &
+pgrep -x sxhkd > /dev/null || sxhkd &
+polybar top > /dev/null & disown
+polybar bottom > /dev/null & disown
+bash ~/.screenlayout/startup.sh > /dev/null
+picom -b --experimental-backend > /dev/null
+nitrogen --restore > /dev/null
+emacs --daemon &
+libinput-gestures-setup start &
+dunst &
+lxsession > /dev/null & disown
+#+end_src
+
+#+RESULTS:
+
+** xinput configuration
+
+#+begin_src bash :tangle ./bspwm/bspwmrc :tangle-mode (identity #o755)
+xinput set-prop 10 331 0 # keep enabled while typing
+xinput set-prop 10 321 1 # tapping enabled
+#+end_src
+
+#+RESULTS:
+
+** Settings
+
+#+begin_src bash :tangle ./bspwm/bspwmrc :tangle-mode (identity #o755)
+bspc monitor -d I II III IV V VI VII VIII IX X
+
+bspc config border_width         2
+bspc config window_gap          12
+
+bspc config split_ratio          0.52
+bspc config borderless_monocle   true
+bspc config gapless_monocle      true
+#+end_src
+
+#+RESULTS:
+
+** Window rules
+
+#+begin_src bash :tangle ./bspwm/bspwmrc :tangle-mode (identity #o755)
+bspc rule -a Gimp desktop='^8' state=floating follow=on
+bspc rule -a Chromium desktop='^2'
+bspc rule -a mplayer2 state=floating
+bspc rule -a Kupfer.py focus=on
+bspc rule -a Screenkey manage=off
+bspc rule -a Emacs state=fullscreen
+#+end_src
+
+#+RESULTS:
+
+* SXHKD Config
+
+** WM independent hotkeys
+
+*** Program launchers
+
+#+begin_src bash :tangle ./sxhkd/sxhkdrc
+# terminal emulator
+super + Return
+	kitty
+
+# program launcher
+super + d
+  dmenu_run -i -p " run:" -fn "FiraCode Nerd Font:pixelsize=17" -nb "#222" -sb "#444"
+
+# browser
+super + b
+	brave --use-gl=desktop --enable-features=VaapiVideoDecoder
+
+#emacs
+super + e
+	emacsclient -c -a 'emacs'
+
+#discord
+super + p
+  discord
+
+#rickroll
+super + r
+  kitty fish -c rr
+
+#thunar
+super + shift + t
+  thunar
+#+end_src
+
+#+RESULTS:
+
+*** Hardware control
+
+#+begin_src  bash :tangle ./sxhkd/sxhkdrc
+# make sxhkd reload its configuration files:
+super + Escape
+	pkill -USR1 -x sxhkd
+
+# volume control
+XF86AudioLowerVolume
+#	amixer set 'Master' 10%- -q
+    pamixer -d 5
+
+XF86AudioRaiseVolume
+#	amixer set 'Master' 10%+ -q
+    pamixer -i 5
+
+XF86AudioMute
+#	amixer set 'Master' toggle -q
+    pamixer -t
+
+# screen brightness
+XF86MonBrightnessDown
+#	xbacklight -dec 5
+    light -U 5
+
+XF86MonBrightnessUp
+#	xbacklight -inc 5
+    light -A 5
+
+#Screenshot
+Print
+    maim -s | xclip -selection clipboard -t image/png
+
+#Screenshot
+super + shift + s
+    maim -s | xclip -selection clipboard -t image/png
+#
+#+end_src
+
+#+RESULTS:
+
+** BPSWM hotkeys
+
+#+begin_src bash :tangle ./sxhkd/sxhkdrc
+# quit/restart bspwm
+super + alt + {q,r}
+	bspc {quit,wm -r}
+
+# close and kill
+super + {_,shift + }q
+	bspc node -{c,k}
+
+# alternate between the tiled and monocle layout
+super + m
+	bspc desktop -l next
+
+# send the newest marked node to the newest preselected node
+super + y
+	bspc node newest.marked.local -n newest.!automatic.local
+
+# swap the current node and the biggest window
+super + g
+	bspc node -s biggest.window
+
+#
+
+# set the window state
+super + {t,shift + t,s,f}
+	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+
+# set the node flags
+super + ctrl + {m,x,y,z}
+	bspc node -g {marked,locked,sticky,private}
+
+#
+# focus/swap
+#
+
+# focus the node in the given direction
+super + {_,shift + }{h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+
+# focus the node for the given path jump
+super + {p,b,comma,period}
+	bspc node -f @{parent,brother,first,second}
+
+# focus the next/previous window in the current desktop
+super + {_,shift + }c
+	bspc node -f {next,prev}.local.!hidden.window
+
+# focus the next/previous desktop in the current monitor
+super + bracket{left,right}
+	bspc desktop -f {prev,next}.local
+
+# focus the last node/desktop
+super + {grave,Tab}
+	bspc {node,desktop} -f last
+
+# focus the older or newer node in the focus history
+super + {o,i}
+	bspc wm -h off; \
+	bspc node {older,newer} -f; \
+	bspc wm -h on
+
+# focus or send to the given desktop
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}'
+
+#
+# preselect
+#
+
+# preselect the direction
+super + ctrl + {h,j,k,l}
+	bspc node -p {west,south,north,east}
+
+# preselect the ratio
+super + ctrl + {1-9}
+	bspc node -o 0.{1-9}
+
+# cancel the preselection for the focused node
+super + ctrl + space
+	bspc node -p cancel
+
+# cancel the preselection for the focused desktop
+super + ctrl + shift + space
+	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+#
+# move/resize
+#
+
+# expand a window by moving one of its side outward
+super + alt + {h,j,k,l}
+	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# contract a window by moving one of its side inward
+super + alt + shift + {h,j,k,l}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# move a floating window
+super + {Left,Down,Up,Right}
+	bspc node -v {-20 0,0 20,0 -20,20 0}
+
+#+end_src
+
+#+RESULTS:
+
+* Kitty Config
+
+#+begin_src conf :tangle ./kitty/kitty.conf
+font_size 14
+background_opacity 0.75
+background #212121
+font_family FiraCode Nerd Font
+bold_font auto
+italic_font auto
+bold_italic_font auto
+window_padding_width 5
+#+end_src
+
+* Polybar Config
+
+#+begin_src conf :tangle ./polybar/config
+[colors]
+background = #222
+background-alt = #444
+foreground = #dfdfdf
+foreground-alt = #555
+primary = #ffb52a
+secondary = #e60053
+alert = #bd2c40
+
+;
+; Bars
+;
+
+[bar/top]
+width = 100%
+height = 25
+background = ${colors.background}
+foreground = ${colors.foreground}
+padding = 2
+module-margin = 1
+font-0 = FiraCode Nerd Font:pixelsize=12;3
+fixed-center = true
+modules-left = title
+;modules-center =
+modules-right = battery0 battery1
+
+[bar/bottom]
+width = 100%
+height = 25
+bottom = true
+background = ${colors.background}
+foreground = ${colors.foreground}
+padding = 2
+module-margin = 1
+font-0 = FiraCode Nerd Font:pixelsize=12;3
+fixed-center = true
+tray-position = right
+modules-left = bspwm
+modules-center = date
+;modules-right =
+
+;
+; Modules
+;
+
+[module/bspwm]
+type = internal/bspwm
+
+label-focused = %index%
+label-focused-background = ${colors.background-alt}
+label-focused-underline= ${colors.primary}
+label-focused-padding = 2
+
+label-occupied = %index%
+label-occupied-padding = 2
+
+label-urgent = %index%!
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 2
+
+label-empty = %index%
+label-empty-foreground = ${colors.foreground-alt}
+label-empty-padding = 2
+
+[module/date]
+type = internal/date
+interval = 5
+date = %Y-%m-%d%
+time = %H:%M
+format = <label>
+label = %time% %date%
+
+[module/battery0]
+type = internal/battery
+battery = BAT0
+adapter = AC
+full-at = 98
+;label-charging = +%percentage%%
+;label-discharging = -%percentage%%
+;label-full = %percentage%%
+
+[module/battery1]
+type = internal/battery
+battery = BAT1
+adapter = AC
+full-at = 98
+label-charging = %percentage%% 
+label-discharging = %percentage%% 
+label-full = %percentage%% 
+
+[module/title]
+type = internal/xwindow
+#+end_src
+
+* Fish Config
+
+#+begin_src fish :tangle ./fish/config.fish
+if status is-interactive
+    #cmds to tun
+end
+# Start X at login
+if status is-login
+    if test -z "$DISPLAY" -a "$XDG_VTNR" = 1
+        exec startx -- -keeptty
+    end
+end
+#+end_src
