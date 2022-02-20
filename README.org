@@ -104,6 +104,10 @@ super + shift + t
 super + Escape
 	pkill -USR1 -x sxhkd
 
+# Power Menu
+super + alt + p
+	~/Scripts/dmenu/pwr
+
 # volume control
 XF86AudioLowerVolume
 #	amixer set 'Master' 10%- -q
