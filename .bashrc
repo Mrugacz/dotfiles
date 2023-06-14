@@ -1,0 +1,1 @@
+/home/kuba/git/dotfiles/.bashrc
