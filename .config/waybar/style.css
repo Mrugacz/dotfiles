@@ -1,0 +1,18 @@
+* {
+    font-family: FiraCode Nerd Font;
+    font-size: 14;
+    padding: 0 5px;
+}
+
+window#waybar {
+    background-color: #1a1b26;
+    color: #c0caf5;
+}
+
+button:hover {
+    background-color: #283457;
+}
+
+#custom-spotify-playpause:hover {
+    color: red;
+}
