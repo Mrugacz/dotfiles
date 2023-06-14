@@ -32,9 +32,6 @@ gp ()
 	git push
 }
 
-# source ssh aliases
-# source ~/.ssh/aliases.sh
-
 ### SETTINGS
 # prompt
 PS1='┌─\[\033[1;36m\]\u\[\033[0;37m\]@\[\033[1;36m\]\h\[\033[0;37m\]:$PWD\n└\[\033[37m\]\$ '
