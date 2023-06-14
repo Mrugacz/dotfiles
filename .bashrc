@@ -1,3 +1,6 @@
+#!/bin/bash
+#  TODO: clean up this spaghetti 
+
 ### ~/.bashrc
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
@@ -32,6 +35,15 @@ alias ll='exa -lah'
 alias cat='bat -pP'
 alias vim='nvim'
 
+# host
+alias a='host -ta'
+alias mx='host -tmx'
+alias ns='host -tns'
+dhost ()
+{
+    host $(host -t a $1 | awk '{print $NF}' )
+}
+
 # YAY
 alias y='yay -Syu --devel'
 yy ()
@@ -43,13 +55,15 @@ yy ()
 ### SETTINGS
 # prompt
 PS1='┌─\[\033[1;36m\]\u\[\033[0;37m\]@\[\033[1;36m\]\h\[\033[0;37m\]:$PWD\n└\[\033[37m\]\$ '
+
 # autocd
 shopt -s autocd
 
 # downloads
-if [[ ! -e /tmp/downloads ]]; then mkdir /tmp/downloads; fi
+if [[ ! -e /tmp/downloads ]]; then 
+    mkdir /tmp/downloads
+fi
 
 source ~/.ssh/aliases.sh
 
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/local/sbin:/usr/lib/jvm/default/bin:/usr/bin/site_perl:/usr/bin/vendor_perl:/usr/bin/core_perl:/home/kuba/.local/bin
 alias config='/usr/bin/git --git-dir=/home/kuba/git/dotfiles --work-tree=/home/kuba'
