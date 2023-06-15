@@ -3,7 +3,7 @@
 # - iio-sensor-proxy # accelerometer
 # - detect-tablet-mode-git # detecting if device is in tablet mode
 
-source $HOME/.config/scripts/hypr-yoga/common.sh
+source $HOME/.config/scripts/hypr/common.sh
 
 monitor-sensor --accel | while read -r line; do
     if [[ `cat /tmp/.lid-state` == 'tablet' ]]; then
