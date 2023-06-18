@@ -1,4 +1,5 @@
 {
+    "layer": "top",
     "height": 30, // Waybar height (to be removed for auto height)
     "spacing": 4, // Gaps between modules (4px)
     "modules-left": ["custom/spotify", "custom/spotify-prev", "custom/spotify-playpause", "custom/spotify-next", "wlr/workspaces"],
