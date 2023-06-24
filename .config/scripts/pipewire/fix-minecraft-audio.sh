@@ -9,9 +9,10 @@ while true; do
         pw-link alsoft:channel_1 bluez_output.90_7A_58_D5_E2_7B.1:playback_FL
         # right channel
         pw-link alsoft:channel_2 bluez_output.90_7A_58_D5_E2_7B.1:playback_FR
+        sleep 60
     else
         echo waiting
-        sleep 2
+        sleep 5
     fi
 done
 
