@@ -2,7 +2,7 @@
 gtk-theme=Tokyonight-Dark-BL
 icon-theme=Suru++
 font-name=Cantarell 11
-cursor-theme=phinger-cursors-light
+cursor-theme=phinger-cursors
 cursor-size=24
 toolbar-style=both-horiz
 toolbar-icons-size=large
