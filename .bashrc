@@ -10,6 +10,7 @@
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/keyring/ssh"
 # EDITOR
 export EDITOR=nvim
+export VISUAL=nvim
 
 ### ALIASES
 # hosts
@@ -39,22 +40,17 @@ alias vim='nvim'
 alias a='host -ta'
 alias mx='host -tmx'
 alias ns='host -tns'
+
+alias vw='vim ~/git/website/content/'
+
 dhost ()
 {
     host $(host -t a $1 | awk '{print $NF}' )
 }
 
-# YAY
-alias y='yay -Syu --devel'
-yy ()
-{
-    yay -Syyu --devel --noconfirm
-    hyprctl dispatch hyprload update
-}
-
 ### SETTINGS
 # prompt
-PS1='┌─\[\033[1;36m\]\u\[\033[0;37m\]@\[\033[1;36m\]\h\[\033[0;37m\]:$PWD\n└\[\033[37m\]\$ '
+PS1='\[\e[1m\][\[\e[0;92m\]\H\[\e[0;1m\]]\[\e[0m\]:$PWD \[\e[90;2m\]$(git branch 2>/dev/null | grep '"'"'*'"'"' | colrm 1 2)\n\[\e[0m\]\$ '
 
 # autocd
 shopt -s autocd
