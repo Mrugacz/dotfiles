@@ -5,14 +5,10 @@
 }
 
 window#waybar {
-    background-color: #0d1212;
-    color: #ccdddb;
+    background-color: #1d2021;
+    color: #ebdbb2;
 }
 
 button:hover {
-    background-color: #8e9a99;
-}
-
-#custom-spotify-playpause:hover {
-    color: red;
+    background-color: #282828;
 }
