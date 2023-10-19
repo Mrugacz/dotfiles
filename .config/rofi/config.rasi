@@ -1,1 +1,12 @@
-@theme "~/.config/rofi/themes/tokyonight.rasi"
+configuration {
+    font: "FiraCode Nerd Font 12";
+
+    display-ssh:    "";
+    display-run:    "";
+    display-drun:   "";
+    display-window: "";
+    display-combi:  "";
+    show-icons:     true;
+}
+
+@theme "~/.config/rofi/gruvbox-material.rasi"

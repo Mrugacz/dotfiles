@@ -3,7 +3,7 @@
     follow = none
     width = (10,300)
     height = 150
-    origin = bottom-right
+    origin = top-right
     offset = 30x30
     scale = 0
     notification_limit = 3
@@ -31,7 +31,7 @@
     ignore_newline = no
     stack_duplicates = yes
     show_indicators = no
-    icon_position = off
+    icon_position = left
     corner_radius = 10
     dmenu = /usr/bin/rofi -dmenu -p dunst:
     browser = /usr/bin/firefox
@@ -42,22 +42,29 @@
     mouse_left_click = do_action, close_current
     mouse_middle_click = close_current
     mouse_right_click = close_all
-    separator_color = "#c0caf5" 
+    separator_color = "#585858"
 
-[urg_low]
-    msg_urgency = low
-    frame_color = "#c0caf5" 
-    background = "#1a1b26" 
-    foreground = "#c0caf5" 
+[frame]
+    width = 1
+    color = "#83a598"
 
-[urg_normal]
-    msg_urgency = normal
-    frame_color = "#c0caf5" 
-    background = "#1a1b26"
-    foreground = "#c0caf5" 
+[shortcuts]
+    close = ctrl+space
+    close_all = ctrl+shift+space
+    history = ctrl+grave
+    context = ctrl+shift+period
 
-[urg_critical]
-    msg_urgency = critical
-    frame_color = "#f7768e" 
-    background = "#1a1b26"
-    foreground = "#c0caf5" 
+[urgency_low]
+    background = "#282828"
+    foreground = "#ebdbb2"
+    timeout = 5
+
+[urgency_normal]
+    background = "#282828"
+    foreground = "#ebdbb2"
+    timeout = 20
+
+[urgency_critical]
+    background = "#282828"
+    foreground = "#ebdbb2"
+    timeout = 0
