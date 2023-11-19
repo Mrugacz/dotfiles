@@ -108,7 +108,7 @@
             "car": " ",
             "default": [" ", " ", " "]
         },
-        "on-click": "pavucontrol"
+        "on-click": "pactl set-source-mute $(pactl get-default-source) toggle"
     },
     "custom/rofi": {
         "format": "menu",
