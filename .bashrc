@@ -11,6 +11,7 @@ export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/keyring/ssh"
 # EDITOR
 export EDITOR=nvim
 export VISUAL=nvim
+export PATH="/usr/lib/ccache/bin/:$PATH"
 
 ### ALIASES
 # hosts
