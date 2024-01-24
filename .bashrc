@@ -1,7 +1,4 @@
 #!/bin/bash
-#  TODO: clean up this spaghetti 
-
-### ~/.bashrc
 # If not running interactively, don't do anything
 [[ $- != *i* ]] && return
 
@@ -19,18 +16,6 @@ alias hosts='sudo nvim /etc/hosts'
 # python
 alias py='python'
 
-# GIT
-# git add
-alias ga='git add'
-# git add all
-alias gaa='git add -A'
-# commit & push
-gp () 
-{
-	git commit -m "$1"
-	git push
-}
-
 # basic shell
 alias ls='exa'
 alias ll='exa -lah'
@@ -41,12 +26,13 @@ alias vim='nvim'
 alias a='host -ta'
 alias mx='host -tmx'
 alias ns='host -tns'
+alias txt='host -ttxt'
 
 alias vw='vim ~/git/website/content/'
 
 dhost ()
 {
-    host $(host -t a $1 | awk '{print $NF}' )
+    host "$(host -t a "$1" | awk '{print $NF}' )"
 }
 
 ### SETTINGS
