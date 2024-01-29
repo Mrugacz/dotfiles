@@ -26,6 +26,7 @@ const Workspaces = (monitor) => Widget.Box({
                 workspaceName -= 5;
             }
 
+
             // If it belongs to monitor, create a button
             if (isOnMonitor) {
                 return Widget.Button({
@@ -196,14 +197,19 @@ monitorFile(
     },
 );
 
-// exporting the config so ags can manage the windows
+// Get the number of monitors
+const nMonitors = imports.gi.Gdk.Screen.get_default().get_n_monitors();
+
+// Create an array to store window configurations
+const windows = [];
+
+// Populate the array using a for loop
+for (let i = 0; i < nMonitors; i++) {
+    windows.push(Bar(i));
+}
+
+// Export the config
 export default {
     style: App.configDir + '/style.css',
-    windows: [
-        Bar(0),
-
-        // you can call it, for each monitor
-        // Bar(0),
-        // Bar(1)
-    ],
+    windows: windows,
 };
