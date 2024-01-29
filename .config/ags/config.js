@@ -13,7 +13,10 @@ const dispatch = ws => Hyprland.sendMessage(`dispatch workspace ${ws}`);
 const Workspaces = (monitor) => Widget.Box({
     class_name: 'workspaces',
     children: Hyprland.bind('workspaces').transform(allWorkspaces => {
-        return allWorkspaces.map(workspace => {
+        // Sort workspaces based on some criteria, e.g., workspace name
+        const sortedWorkspaces = allWorkspaces.sort((a, b) => a.name.localeCompare(b.name));
+
+        return sortedWorkspaces.map(workspace => {
             // Check if the workspace belongs to monitor
             const isOnMonitor = Hyprland.getWorkspace(workspace.id).monitorID === monitor;
 
@@ -26,7 +29,6 @@ const Workspaces = (monitor) => Widget.Box({
             // If it belongs to monitor, create a button
             if (isOnMonitor) {
                 return Widget.Button({
-                    
                     label: `${workspaceName}`,
                     on_clicked: () => dispatch(workspace.id),
                     class_name: Hyprland.active.workspace.bind('id')
@@ -48,7 +50,7 @@ const Clock = () => Widget.Label({
     class_name: 'clock',
     setup: self => self
         // this is what you should do
-        .poll(1000, self => execAsync(['date', '+%H:%M - %e/%b/%Y'])
+        .poll(1000, self => execAsync(['date', '+%H:%M - %e %B %Y'])
             .then(date => self.label = date)),
 });
 
@@ -199,8 +201,6 @@ export default {
     style: App.configDir + '/style.css',
     windows: [
         Bar(0),
-        Bar(1),
-        Bar(2),
 
         // you can call it, for each monitor
         // Bar(0),
