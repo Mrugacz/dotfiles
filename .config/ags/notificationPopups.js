@@ -93,6 +93,7 @@ export const notificationPopup = Widget.Window({
     name: 'notifications',
     anchor: ['top', 'right'],
     monitor: 0,
+    layer: 'overlay',
     child: Widget.Box({
         class_name: 'notifications',
         vertical: true,
