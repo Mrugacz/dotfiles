@@ -27,7 +27,6 @@ const Workspaces = (monitor) => Widget.Box({
                 workspaceName -= 5;
             }
 
-
             // If it belongs to monitor, create a button
             if (isOnMonitor) {
                 return Widget.Button({
@@ -56,21 +55,6 @@ const Clock = () => Widget.Label({
             .then(date => self.label = date)),
 });
 
-// we don't need dunst or any other notification daemon
-// because the Notifications module is a notification daemon itself
-const Notification = () => Widget.Box({
-    class_name: 'notification',
-    visible: Notifications.bind('popups').transform(p => p.length > 0),
-    children: [
-        Widget.Icon({
-            icon: 'preferences-system-notifications-symbolic',
-        }),
-        Widget.Label({
-            label: Notifications.bind('popups').transform(p => p[0]?.summary || ''),
-        }),
-    ],
-});
-
 const Media = () => Widget.Button({
     class_name: 'media',
     on_primary_click: () => Mpris.getPlayer('')?.playPause(),
@@ -88,7 +72,7 @@ const Media = () => Widget.Button({
 
 const Volume = () => Widget.Box({
     class_name: 'volume',
-    css: 'min-width: 180px',
+    css: 'min-width: 120px',
     children: [
         Widget.Icon().hook(Audio, self => {
             if (!Audio.speaker)
@@ -118,23 +102,35 @@ const Volume = () => Widget.Box({
     ],
 });
 
-const BatteryLabel = () => Widget.Box({
-    class_name: 'battery',
-    visible: Battery.bind('available'),
-    children: [
-        Widget.Icon({
-            icon: Battery.bind('percent').transform(p => {
-                return `battery-level-${Math.floor(p / 10) * 10}-symbolic`;
-            }),
-        }),
-        Widget.Label({
-            class_name: 'battery',
-            label: Battery.bind('percent').transform(p => {
-                return ` ${p}%`;
-            }),
-        }),
-    ],
+const Microphone = () => Widget.Button({
+    class_name: 'microphone',
+    on_primary_click: () => console.log(Audio.microphone.stream.isMuted = !Audio.microphone.stream.isMuted),
+    child: Widget.Icon().hook(Audio, self => {
+        if (!Audio.microphone)
+            return;
+
+        const icon = Audio.microphone.stream.is_muted ? 'microphone-sensitivity-muted-symbolic' : 'microphone-sensitivity-high-symbolic';
+        self.icon = icon;
+    }),
 });
+
+const BatteryLabel = () => Widget.Box({
+            class_name: 'battery',
+            visible: Battery.bind('available'),
+            children: [
+                Widget.Icon({
+                    icon: Battery.bind('percent').transform(p => {
+                        return `battery-level-${Math.floor(p / 10) * 10}-symbolic`;
+                    }),
+                }),
+                Widget.Label({
+                    class_name: 'battery',
+                    label: Battery.bind('percent').transform(p => {
+                        return ` ${p}%`;
+                    }),
+                }),
+            ],
+        });
 
 const SysTray = () => Widget.Box({
     children: SystemTray.bind('items').transform(items => {
@@ -169,6 +165,7 @@ const Right = () => Widget.Box({
     spacing: 8,
     children: [
         Media(),
+        Microphone(),
         Volume(),
         BatteryLabel(),
         SysTray(),
