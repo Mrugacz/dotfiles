@@ -104,7 +104,7 @@ const Volume = () => Widget.Box({
 
 const Microphone = () => Widget.Button({
     class_name: 'microphone',
-    on_primary_click: () => console.log(Audio.microphone.stream.isMuted = !Audio.microphone.stream.isMuted),
+    on_primary_click: () => Audio.microphone.stream.isMuted = !Audio.microphone.stream.isMuted,
     child: Widget.Icon().hook(Audio, self => {
         if (!Audio.microphone)
             return;
@@ -126,7 +126,7 @@ const BatteryLabel = () => Widget.Box({
                 Widget.Label({
                     class_name: 'battery',
                     label: Battery.bind('percent').transform(p => {
-                        return ` ${p}%`;
+                        return ` ${Math.floor(p)}%`;
                     }),
                 }),
             ],
