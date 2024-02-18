@@ -42,10 +42,13 @@ PS1='\[\e[1m\][\[\e[0;92m\]\H\[\e[0;1m\]]\[\e[0m\]:$PWD \[\e[90;2m\]$(git branch
 # autocd
 shopt -s autocd
 
-# downloads
-if [[ ! -e /tmp/downloads ]]; then 
-    mkdir /tmp/downloads
-fi
+# history
+
+HISTSIZE=10000
+HISTFILESIZE=10000
+
+shopt -s histappend
+shopt -s cmdhist
 
 source ~/.ssh/aliases.sh
 
