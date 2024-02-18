@@ -44,6 +44,7 @@ const Workspaces = (monitor) => Widget.Box({
 
 const ClientTitle = () => Widget.Label({
     class_name: 'client-title',
+    truncate: 'end',
     label: Hyprland.active.client.bind('title'),
 });
 
@@ -64,8 +65,10 @@ const Media = () => Widget.Button({
         if (Mpris.players[0]) {
             const { track_artists, track_title } = Mpris.players[0];
             self.label = `${track_artists.join(', ')} - ${track_title}`;
+            self.truncate = 'end';
         } else {
             self.label = 'Nothing is playing';
+            self.truncate = 'end';
         }
     }, 'player-changed'),
 });
