@@ -106,7 +106,7 @@ const Microphone = () => Widget.Button({
     class_name: 'microphone',
     on_primary_click: () => Utils.exec('bash -c "pactl set-source-mute `pactl get-default-source` toggle"'),
     child: Widget.Icon().hook(Audio, self => {
-        if (!Audio.microphone)
+        if (!Audio.microphone || !Audio.microphone.stream)
             return;
 
         const icon = Audio.microphone.stream.is_muted ? 'microphone-sensitivity-muted-symbolic' : 'microphone-sensitivity-high-symbolic';
