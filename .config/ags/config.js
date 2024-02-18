@@ -104,7 +104,7 @@ const Volume = () => Widget.Box({
 
 const Microphone = () => Widget.Button({
     class_name: 'microphone',
-    on_primary_click: () => Audio.microphone.stream.isMuted = !Audio.microphone.stream.isMuted,
+    on_primary_click: () => Utils.exec('bash -c "pactl set-source-mute `pactl get-default-source` toggle"'),
     child: Widget.Icon().hook(Audio, self => {
         if (!Audio.microphone)
             return;
@@ -115,22 +115,22 @@ const Microphone = () => Widget.Button({
 });
 
 const BatteryLabel = () => Widget.Box({
+    class_name: 'battery',
+    visible: Battery.bind('available'),
+    children: [
+        Widget.Icon({
+            icon: Battery.bind('percent').transform(p => {
+                return `battery-level-${Math.floor(p / 10) * 10}-symbolic`;
+            }),
+        }),
+        Widget.Label({
             class_name: 'battery',
-            visible: Battery.bind('available'),
-            children: [
-                Widget.Icon({
-                    icon: Battery.bind('percent').transform(p => {
-                        return `battery-level-${Math.floor(p / 10) * 10}-symbolic`;
-                    }),
-                }),
-                Widget.Label({
-                    class_name: 'battery',
-                    label: Battery.bind('percent').transform(p => {
-                        return ` ${Math.floor(p)}%`;
-                    }),
-                }),
-            ],
-        });
+            label: Battery.bind('percent').transform(p => {
+                return ` ${Math.floor(p)}%`;
+            }),
+        }),
+    ],
+});
 
 const SysTray = () => Widget.Box({
     children: SystemTray.bind('items').transform(items => {
