@@ -9,6 +9,22 @@ import Widget from 'resource:///com/github/Aylur/ags/widget.js';
 import { exec, execAsync } from 'resource:///com/github/Aylur/ags/utils.js';
 import { notificationPopup } from './notificationPopups.js';
 
+function formatTime(seconds) {
+    if (isNaN(seconds) || seconds < 0) {
+        return 'Invalid time';
+    }
+
+    const hours = Math.floor(seconds / 3600);
+    const minutes = Math.floor((seconds % 3600) / 60);
+    const remainingSeconds = Math.floor(seconds % 60);
+
+    const hoursDisplay = hours > 0 ? hours + 'h ' : '';
+    const minutesDisplay = minutes > 0 ? minutes + 'm ' : '';
+    const secondsDisplay = remainingSeconds > 0 ? remainingSeconds + 's' : '';
+
+    return hoursDisplay + minutesDisplay + secondsDisplay;
+}
+
 const dispatch = ws => Hyprland.sendMessage(`dispatch workspace ${ws}`);
 
 const Workspaces = (monitor) => Widget.Box({
@@ -120,6 +136,9 @@ const Microphone = () => Widget.Button({
 const BatteryLabel = () => Widget.Box({
     class_name: 'battery',
     visible: Battery.bind('available'),
+    tooltip_text: Battery.bind('time-remaining').transform(time => {
+        return time ? `${formatTime(time)}` : '';
+    }),
     children: [
         Widget.Icon({
             icon: Battery.bind('percent').transform(p => {
