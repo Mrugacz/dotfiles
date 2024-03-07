@@ -4,7 +4,7 @@
 
 ### ENV
 # SSH Agent 
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/keyring/ssh"
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh"
 # EDITOR
 export EDITOR=nvim
 export VISUAL=nvim
