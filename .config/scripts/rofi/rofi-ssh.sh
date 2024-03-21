@@ -1,7 +1,7 @@
 #!/bin/bash
 # should work with dmenu
 # fix gnome keyring
-export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/keyring/ssh"
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh"
 SERVER=$(echo -e "mrugacz.xyz\nc1872.lh.pl\nvoron.mrugacz.xyz\nvps.mrugacz.xyz" | rofi -dmenu)
 
 TERMCMD='kitty -e ssh'
