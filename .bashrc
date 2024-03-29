@@ -3,7 +3,7 @@
 [[ $- != *i* ]] && return
 
 ### ENV
-# SSH Agent 
+# SSH Agent
 export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/gcr/ssh"
 # EDITOR
 export EDITOR=nvim
@@ -30,9 +30,8 @@ alias txt='host -ttxt'
 
 alias vw='vim ~/git/website/content/'
 
-dhost ()
-{
-    host "$(host -t a "$1" | awk '{print $NF}' )"
+dhost() {
+	host "$(host -t a "$1" | awk '{print $NF}')"
 }
 
 ### SETTINGS
@@ -44,8 +43,10 @@ shopt -s autocd
 
 # history
 
+HISTTIMEFORMAT="%d/%m/%Y %H:%M - "
 HISTSIZE=10000
 HISTFILESIZE=10000
+HISTCONTROL=ignoredups
 
 shopt -s histappend
 shopt -s cmdhist
@@ -53,3 +54,8 @@ shopt -s cmdhist
 source ~/.ssh/aliases.sh
 
 alias config='/usr/bin/git --git-dir=/home/kuba/git/dotfiles --work-tree=/home/kuba'
+alias cs='config status'
+alias ca='config add'
+alias cm='config commit'
+
+#  bind -x '"\C-r": eval "$(grep -v "^#" ~/.bash_history* | grep -v "^#"| fzf --tac | cut -d ":" -f2-)"'
