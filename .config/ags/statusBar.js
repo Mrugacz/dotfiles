@@ -11,11 +11,20 @@ const systemtray = await Service.import("systemtray");
 function Workspaces(monitor) {
   const activeId = hyprland.active.workspace.bind("id");
   const workspaces = hyprland.bind("workspaces").transform((allWorkspaces) => {
-    return allWorkspaces.map((workspace) => {
-      const isOnMonitor =
-        hyprland.getWorkspace(workspace.id).monitorID === monitor;
-
-      if (isOnMonitor) {
+    return allWorkspaces
+      .filter(
+        (workspace) =>
+          hyprland.getWorkspace(workspace.id).monitorID === monitor,
+      ) // Filter workspaces based on monitor
+      .sort((a, b) => {
+        // Sort workspaces by their names
+        const nameA = a.name.toLowerCase();
+        const nameB = b.name.toLowerCase();
+        if (nameA < nameB) return -1;
+        if (nameA > nameB) return 1;
+        return 0;
+      })
+      .map((workspace) => {
         const workspaceName = workspace.name % 5;
         return Widget.Button({
           label: `${workspaceName}`,
@@ -25,8 +34,7 @@ function Workspaces(monitor) {
             (i) => `${i === workspace.id ? "focused" : ""}`,
           ),
         });
-      }
-    });
+      });
   });
 
   return Widget.Box({
