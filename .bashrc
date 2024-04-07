@@ -56,6 +56,6 @@ source ~/.ssh/aliases.sh
 alias config='/usr/bin/git --git-dir=/home/kuba/git/dotfiles --work-tree=/home/kuba'
 alias cs='config status'
 alias ca='config add'
-alias cm='config commit'
+alias cm='config commit -m'
 
 #  bind -x '"\C-r": eval "$(grep -v "^#" ~/.bash_history* | grep -v "^#"| fzf --tac | cut -d ":" -f2-)"'
