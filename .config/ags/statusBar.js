@@ -25,7 +25,10 @@ function Workspaces(monitor) {
         return 0;
       })
       .map((workspace) => {
-        const workspaceName = workspace.name % 5;
+        let workspaceName = workspace.name % 5;
+        if (workspaceName === 0) {
+          workspaceName = 5;
+        }
         return Widget.Button({
           label: `${workspaceName}`,
           on_clicked: () =>
