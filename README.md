@@ -1,5 +1,7 @@
 # Dotfiles
+
 Installation:
+
 ```bash
 mkdir $HOME/git
 
@@ -22,4 +24,8 @@ fi;
 
 config checkout
 config config status.showUntrackedFiles no
+
+# enable bluetooth media controls
+sudo systemctl daemon-reload
+systemctl --user enable --now mpris-proxy.service
 ```
