@@ -135,6 +135,7 @@ function Volume() {
 const Microphone = () =>
   Widget.Button({
     class_name: "microphone",
+    tooltip_text: "Toggle microphone",
     on_primary_click: () =>
       Utils.exec(
         'bash -c "pactl set-source-mute `pactl get-default-source` toggle"',
@@ -205,13 +206,39 @@ function SysTray() {
 }
 
 //          ╭─────────────────────────────────────────────────────────╮
+//          │                Headphone Connect Button                 │
+//          ╰─────────────────────────────────────────────────────────╯
+
+function HeadphoneButton() {
+  return Widget.Button({
+    class_name: "headphone",
+    on_primary_click: () =>
+      Utils.exec("bluetoothctl connect 90:7A:58:D5:E2:7B"),
+    child: Widget.Icon("audio-headphones-symbolic"),
+    tooltip_text: "Connect to Sony WH-XB910N",
+  });
+}
+
+//          ╭─────────────────────────────────────────────────────────╮
+//          │                      App Launcher                       │
+//          ╰─────────────────────────────────────────────────────────╯
+
+function AppLauncher() {
+  return Widget.Button({
+    class_name: "app-launcher-button",
+    on_primary_click: () => Utils.exec("rofi -show drun"),
+    child: Widget.Icon("view-grid-symbolic"),
+    tooltip_text: "Open App Launcher",
+  });
+}
+//          ╭─────────────────────────────────────────────────────────╮
 //          │                        Positions                        │
 //          ╰─────────────────────────────────────────────────────────╯
 
 function Left(monitor) {
   return Widget.Box({
     spacing: 8,
-    children: [Workspaces(monitor), ClientTitle()],
+    children: [AppLauncher(), Workspaces(monitor), ClientTitle()],
   });
 }
 
@@ -226,7 +253,14 @@ function Right() {
   return Widget.Box({
     hpack: "end",
     spacing: 8,
-    children: [Media(), Microphone(), Volume(), BatteryLabel(), SysTray()],
+    children: [
+      Media(),
+      Microphone(),
+      Volume(),
+      BatteryLabel(),
+      SysTray(),
+      HeadphoneButton(),
+    ],
   });
 }
 
