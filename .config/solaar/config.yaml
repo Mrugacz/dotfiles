@@ -6,7 +6,8 @@
     m-key-leds, mr-key-led, multiplatform, gesture2-gestures, gesture2-divert, gesture2-params, sidetone, equalizer, adc_power_management]
   _battery: 4096
   _modelId: B02340820000
-  _sensitive: {change-host: false, divert-keys: true, hires-scroll-mode: ignore, hires-smooth-invert: ignore, hires-smooth-resolution: ignore, reprogrammable-keys: false}
+  _sensitive: {change-host: false, divert-keys: true, hires-scroll-mode: ignore, hires-smooth-invert: ignore, hires-smooth-resolution: false, reprogrammable-keys: false,
+    smart-shift: true}
   _serial: C634F5F8
   _unitId: C634F5F8
   _wpid: '4082'
@@ -18,6 +19,6 @@
   hires-smooth-resolution: true
   reprogrammable-keys: {80: 80, 81: 81, 82: 82, 83: 83, 86: 86, 195: 195, 196: 196}
   scroll-ratchet: 2
-  smart-shift: 10
+  smart-shift: 4
   thumb-scroll-invert: false
   thumb-scroll-mode: false
