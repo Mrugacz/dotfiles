@@ -103,3 +103,16 @@ window#notifications box.notifications {
 .actions .action-button:last-child {
   margin-right: 0;
 }
+
+.powermenu {
+  border-radius: 11px;
+  background-color: @theme_bg_color;
+}
+
+.powermenu box button {
+  font-size: 1.5em;
+  padding: 0.5em;
+  margin: 0 0.4em;
+  border: 2px solid @wm_borders_edge;
+  border-radius: 7px;
+}

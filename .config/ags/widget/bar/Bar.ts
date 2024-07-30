@@ -8,7 +8,7 @@ const systemtray = await Service.import("systemtray");
 //          │                        Hyprland                         │
 //          ╰─────────────────────────────────────────────────────────╯
 
-function Workspaces(monitor) {
+function Workspaces(monitor: number) {
   const activeId = hyprland.active.workspace.bind("id");
   const workspaces = hyprland.bind("workspaces").transform((allWorkspaces) => {
     return allWorkspaces
@@ -29,8 +29,10 @@ function Workspaces(monitor) {
         if (workspaceName === 0) {
           workspaceName = 5;
         }
+        let windows = workspace.windows;
         return Widget.Button({
           label: `${workspaceName}`,
+          tooltip_text: `${windows} window(s) open`,
           on_clicked: () =>
             hyprland.messageAsync(`dispatch workspace ${workspace.id}`),
           class_name: activeId.as(
@@ -268,7 +270,7 @@ function Right() {
 //          │                   Load the status bar                   │
 //          ╰─────────────────────────────────────────────────────────╯
 
-export function StatusBar(monitor) {
+export function Bar(monitor) {
   return Widget.Window({
     name: `bar-${monitor}`, // name has to be unique
     class_name: "bar",
