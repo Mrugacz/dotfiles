@@ -16,6 +16,27 @@ function Workspaces(monitor: number) {
         (workspace) =>
           hyprland.getWorkspace(workspace.id).monitorID === monitor,
       ) // Filter workspaces based on monitor
+      .map((workspace) => {
+        let workspaceName = workspace.name % 5;
+        if (workspaceName === 0) {
+          workspaceName = 5;
+        }
+        let windows = workspace.windows;
+        // don't show the workspace if there are no windows
+        if (windows === 0) {
+          return;
+        }
+        return Widget.Button({
+          label: `${workspaceName}`,
+          tooltip_text: `${windows} window(s) open`,
+          on_clicked: () =>
+            hyprland.messageAsync(`dispatch workspace ${workspace.id}`),
+          class_name: activeId.as(
+            // highlight the active workspace
+            (i) => `${i === workspace.id ? "focused" : ""}`,
+          ),
+        });
+      })
       .sort((a, b) => {
         // Sort workspaces by their names
         const nameA = a.name.toLowerCase();
@@ -23,22 +44,6 @@ function Workspaces(monitor: number) {
         if (nameA < nameB) return -1;
         if (nameA > nameB) return 1;
         return 0;
-      })
-      .map((workspace) => {
-        let workspaceName = workspace.name % 5;
-        if (workspaceName === 0) {
-          workspaceName = 5;
-        }
-        let windows = workspace.windows;
-        return Widget.Button({
-          label: `${workspaceName}`,
-          tooltip_text: `${windows} window(s) open`,
-          on_clicked: () =>
-            hyprland.messageAsync(`dispatch workspace ${workspace.id}`),
-          class_name: activeId.as(
-            (i) => `${i === workspace.id ? "focused" : ""}`,
-          ),
-        });
       });
   });
 
